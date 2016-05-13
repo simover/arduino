@@ -133,16 +133,12 @@ void setup()
   get("/");
 }
 
-//в строке curStr будем хранить текущую строку, которую передает нам плата
 String currStr = "";
 int updateTime = 0;
-int btnPin = 12;
-boolean prevBtn = LOW;
 String callerID = "";
 
 void loop()
-{
-  
+{  
   // If Serial established, debug mode
   if(Serial){
     if (Serial.available()) {
@@ -154,48 +150,6 @@ void loop()
   }
   if(gsm) {
     
-  }
-//  sendat();
-//  if (!gsm.available()) {
-//    return;
-//  }
-  if(false) {
-    char currSymb = gsm.read();
-    if ('\r' == currSymb) {
-      serial_line(currStr);
-      if (currStr.substring(0, 7) == "+CLIP: " && currStr.length() > 10) {
-        callerID = currStr.substring(currStr.indexOf('"') + 1);
-        callerID = callerID.substring(0, callerID.indexOf('"'));
-        serial_line("Detected CallerID: " + callerID);
-      } else if (!currStr.compareTo("RING")) {
-        //кокетничаем 3 секунды, чтобы дать услышать звонящему гудок
-        /*
-          delay(2000);
-          //посылаем команду на поднятие трубки
-          if(callerID == phone1) {
-          gsm.println("ATA");
-          } else if(callerID == phone2){
-          gsm.println("ATA");
-          } else if(callerID == phone3) {
-          gsm.println("ATA");
-          } else {
-          serial_line("Unknown CallerID: "+callerID);
-          }*/
-      } else if (!currStr.compareTo("NO CARRIER")) {
-        serial_line("CleanUp CallerID");
-        callerID = "";
-      }
-      //currStr.toCharArray(charBuf, 50);
-      //Serial.write(charBuf);
-      currStr = "";
-    } else if (currSymb != '\n') {
-      // Дополняем текущую команду новым сиволом
-      // При этом игнорируем второй символ в последовательности переноса
-      // строки: \r\n
-      currStr += String(currSymb);
-    } else {
-      //Serial.write(gsm.read());
-    } 
   }
 }
 
